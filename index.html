@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>群馬県の国有林</title>        
+        <script src='https://unpkg.com/maplibre-gl@3.0.1/dist/maplibre-gl.js'></script>
+        <link href='https://unpkg.com/maplibre-gl@3.0.1/dist/maplibre-gl.css' rel='stylesheet' />
+    </head>
+    <body>        
+        <div id="map" style="height: 80vh"></div>
+        <script>
+            const path = location.href.replace('/index.html', '');
+            const vectortileUrl = `${path}/tiles/{z}/{x}/{y}.pbf`;
+            const map = new maplibregl.Map({
+                container: 'map',
+                center: [138.766979, 36.537607],
+                zoom: 14,
+                style: {
+                    version: 8,
+                    sources: {
+                        osm: {
+                            type: 'raster',
+                            tiles: [
+                                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            ],
+                            tileSize: 256,
+                            maxzoom: 19,
+                            attribution: 
+                              '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',                        
+                        },
+                        forest: {
+                            type: 'vector',
+                            tiles: [vectortileUrl],
+                            maxzoom: 11,
+                        },
+                    },
+                    layers: [
+                        {
+                            id: 'osm-layer',
+                            source: 'osm',
+                            type: 'raster',
+                        },
+                        {
+                            id: 'forest-layer',
+                            source: 'forest',
+                            'source-layer': 'forest',
+                            type: 'fill',
+                            paint: {
+                                'fill-color': '#fa0',
+                                'fill-opacity': 0.3,
+                                'fill-outline-color': '#00f',
+                            }
+                        },
+
+                    ],
+                }
+            })
+        </script>
+    </body>
+</html>
+
