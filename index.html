@@ -53,8 +53,30 @@
 
                     ],
                 }
+            });
+            map.on('click', 'forest-layer', (e) => {
+                const forest = e.features[0];
+                new maplibregl.Popup()
+                .setHTML(`<b>林小班名: ${forest.properties.A45_011}</b><br><b>樹種: ${forest.properties.A45_015}</b>`)
+                // TODO: ポップアップの基準となる緯度経度をどうやって算出するか
+                .setLngLat(forest.geometry.coordinates[0][0])
+                .addTo(map);
             })
         </script>
+        <style>
+            #marker {
+            background-image: url('https://maplibre.org/maplibre-gl-js-docs/assets/washington-monument.jpg');
+            background-size: cover;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            }
+             
+            .maplibregl-popup {
+            max-width: 200px;
+            }
+        </style>
     </body>
 </html>
 
